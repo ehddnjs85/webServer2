@@ -1,0 +1,216 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <form>
+                <table class="mb-5">
+                    <tbody>
+                        <tr>
+                            <td>일련번호</td>
+                            <td><input type="text" id="serialNo" class="readonly" value="<%= rows[0].serialNo %>"></td>
+                        </tr>
+                        <tr>
+                            <td>디바이스명</td>
+                            <input type="hidden" id="name" value="<%= rows[0].deviceName %>">
+                            <td>
+                                <select id="deviceName" class="readonly">
+                                    <option>RLCT001</option>
+                                    <option>RLCT002</option>
+                                    <option>RLCT003</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>서비스망</td>
+                            <input type="hidden" id="vendor" value="<%= rows[0].Mvendor %>">
+                            <td>
+                                <select id="Mvendor" class="readonly">
+                                    <option>LGT</option>
+                                    <option>SKT</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>서비스명</td>
+                            <input type="hidden" id="ser_Nm" value="<%= rows[0].serviceName %>">
+                            <td>
+                                <select id="serviceName" class="readonly">
+                                    <option>금강고속</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>접속서버:Port</td>
+                            <td><input type="text" id="connUrl" class="readonly" value="<%= rows[0].connUrl %>"></td>
+                        </tr>
+                        <tr>
+                            <td>F/W버전</td>
+                            <td><input type="text" id="fwVer" class="readonly" value="<%= rows[0].fwVer %>"></td>
+                        </tr>
+                        <tr>
+                            <td>장치상태</td>
+                            <td><input type="text" id="status" class="readonly" value="<%= rows[0].status %>"></td>
+                        </tr>
+                        <tr>
+                            <td>생성일</td>
+                            <td><input type="text" id="properPress" class="readonly" value="<%= rows[0].properPress %>"></td>
+                        </tr>
+                        <tr>
+                            <td>차량번호</td>
+                            <td><input type="text" id="carNum"></td>
+                        </tr>
+                        <tr>
+                            <td>차량타입</td>
+                            <input type="hidden" id="cType" value="<%= rows[0].carType %>">
+                            <td>
+                                <select id="carType">
+                                    <option>버스</option>
+                                    <option>트럭</option>
+                                    <option>SUV</option>
+                                    <option>승용</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>타이어크기</td>
+                            <td><input type="text" id="tireSize" name="tire"></td>
+                        </tr>
+                        <tr>
+                            <td>계절보정여부</td>
+                            <input type="hidden" id="boolean" value="<%= rows[0].season %>">
+                            <td>
+                                <select id="season">
+                                    <option>보정안함</option>
+                                    <option>보정</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table table-bordered">
+                    <h5>센서정보</h5>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>SenserID</th>
+                            <th>RFID</th>
+                            <th>위치</th>
+                            <th>마모</th>
+                            <th>교체시기</th>
+                            <th>비용</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for( let i = 0; i < rows.length; i++ ) { %>
+                            <tr>
+                                <td></td>
+                                <td id="sensorId"><%= rows[i].sensorId %></td>
+                                <td id="RFId"><%= rows[i].RFId %></td>
+                                <td id="loc"><%= rows[i].loc %></td>
+                                <td id="wearIndex"><%= rows[i].wearIndex %></td>
+                                <td><input type="text" id="rePeriod" style="border: none; border-bottom: rgb(185, 185, 185) 1px solid;"></td>
+                                <td><input type="text" id="cost" style="border: none; border-bottom: rgb(185, 185, 185) 1px solid;"></td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </form>
+            <div class="text-right">
+                <a role="button" class="btn btn-primary" id="back">Back</a>
+                <button class="btn btn-primary" id="save">등록</button>
+                <button class="btn btn-primary" id="edit">저장</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var serialNo = $("#serialNo").val();
+    if(serialNo){
+        $('#save').hide();
+        $('.readonly').attr({'readonly':'true', 'disabled':'disabled'});
+        
+        let sevNm = $('#ser_Nm').val();
+        let ven = $('#vendor').val();
+        let dev = $('#name').val();
+        let type = $('#cType').val();
+        let bool = $('#boolean').val();
+        let s = $('#serviceName').val(sevNm);
+        let m = $('#Mvendor').val(ven);
+        let d = $('#deviceName').val(dev);
+        let t = $('#carType').val(type);
+        let b = $('#season').val(bool);
+
+    } else {
+        $('#edit').hide();
+    }
+    
+    $("#save").on('click', function () {
+        var serialNo = $("#serialNo").val();
+        var deviceName = $("#deviceName option:selected").val();
+        var Mvendor = $("#Mvendor option:selected").val();
+        var serviceName = $("#serviceName option:selected").val();
+        var connUrl = $("#connUrl").val();
+        var fwVer = $("#fwVer").val();
+        var status = $("#status").val();
+        var properPress = $("#properPress").val();
+        var carNum = $("#carNum").val();
+        var carType = $("#carType option:selected").val();
+        var tireSize = $("#tireSize").val();
+        var season = $("#season option:selected").val();
+     
+        var data = {
+            serialNo,deviceName,Mvendor,serviceName,connUrl,fwVer,status,properPress,carNum,carType,tireSize,season
+        }
+
+        $.ajax({
+            url : "/device/info",
+            type : "post",
+            dataType : "json",
+            data : data,
+            success : function (result) {
+                window.location.href="/device"
+            },
+            error : function (result) {
+                res.send(result);
+            }
+        });
+    });
+
+    $("#edit").on('click', function () {
+        var serialNo = $("#serialNo").val();
+        var deviceName = $("#deviceName option:selected").val();
+        var Mvendor = $("#Mvendor option:selected").val();
+        var serviceName = $("#serviceName option:selected").val();
+        var connUrl = $("#connUrl").val();
+        var fwVer = $("#fwVer").val();
+        var status = $("#status").val();
+        var properPress = $("#properPress").val();
+        var carNum = $("#carNum").val();
+        var carType = $("#carType option:selected").val();
+        var tireSize = $("#tireSize").val();
+        var season = $("#season option:selected").val();
+        var sensorId = $("#sensorId").val();
+        var RFId = $("#RFId").val();
+        var loc = $("#loc").val();
+        var wearIndex = $("#wearIndex").val();
+        var rePeriod = $("#rePeriod").val();
+        var cost = $("#cost").val();
+     
+        var data = {
+            serialNo,deviceName,Mvendor,serviceName,connUrl,fwVer,status,properPress,carNum,carType,tireSize,season,sensorId,RFId,loc,wearIndex,rePeriod,cost
+        }
+
+        $.ajax({
+            url : "/device/modify/" + serialNo,
+            type : "post",
+            dataType : "json",
+            data : data,
+            success : function (result) {
+                window.location.href="/device"
+            },
+            error : function (result) {
+                res.send(result);
+            }
+        });
+    });
+</script>

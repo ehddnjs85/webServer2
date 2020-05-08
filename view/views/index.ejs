@@ -1,0 +1,103 @@
+<style>
+    .deviceMenu>tr{
+        float: left;margin-right: 20px;
+    }
+</style>
+<div class="container">
+    <div class="row mt-5">
+        <div class="col">
+            <div>
+                <label><h3>장치관리</h3></label>
+            </div>
+
+            <div>
+                <table>
+                    <tbody class="deviceMenu">
+                        <tr>
+                            <td>구분</td>
+                            <td>
+                                <select>
+                                    <option>액티브</option>
+                                    <option>프로비저닝</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>고객사</td>
+                            <td>
+                                <select>
+                                    <option>금각고속</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>서비스명</td>
+                            <td>
+                                <select>
+                                    <option>금강고속</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>디바이스명</td>
+                            <td>
+                                <select>
+                                    <option>전체</option>
+                                    <option>RLCT001</option>
+                                </select>
+                            </td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mt-5">
+                <!-- User 리스트 -->
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>일련번호</th>
+                            <th>디바이스명</th>
+                            <th>서비스망</th>
+                            <th>서비스명</th>
+                            <th>접속서버</th>
+                            <th>F/W 버전</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for( let i = 0; i < data.length; i++ ) { %>
+                            <tr id="dd" onclick="location='/device/modify/<%= data[i].serialNo%>'">
+                                <td><%= data[i].serialNo %></td>
+                                <td><%= data[i].deviceName %> </td>
+                                <td><%= data[i].Mvendor %> </td>
+                                <td><%= data[i].serviceName %> </td>
+                                <td><%= data[i].connUrl %></td>
+                                <td><%= data[i].fwVer %> </td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+            <div class="text-right">
+                <a role="button" class="btn btn-primary" id="back">Back</a>
+                <a role="button" class="btn btn-primary" id="create" onclick="location='/device/info'">add</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+
+    // $('#dd').on('click', function () {
+    //     $.ajax({
+    //         url : '/device/modify/' + id,
+    //         type : "GET",
+    //         dataType : 'json',
+    //         success : function() {
+    //             window.location.href=''
+    //         }
+    //     })
+    // });
+</script>
